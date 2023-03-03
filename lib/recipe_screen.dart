@@ -7,7 +7,7 @@ import 'home_screen.dart';
 
 class RecipeScreen extends StatefulWidget {
   static const String id = 'recipe_screen';
-  
+
   final dynamic recipe;
 
   const RecipeScreen({Key? key, required this.recipe}) : super(key: key);
@@ -30,7 +30,8 @@ class _RecipeScreenState extends State<RecipeScreen> {
   void _loadFavoriteStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isFavorite = prefs.getBool(widget.recipe['idMeal']?.toString() ?? '') ?? false;
+      isFavorite =
+          prefs.getBool(widget.recipe['idMeal']?.toString() ?? '') ?? false;
       _favoriteRecipes = prefs.getStringList('favoriteRecipes') ?? [];
     });
   }
@@ -52,18 +53,17 @@ class _RecipeScreenState extends State<RecipeScreen> {
   }
 
   void _onItemTapped(int index) {
-  setState(() {
-    _selectedIndex = index;
-  });
-  if (index == 0) {
-    Navigator.pushNamed(context, HomeScreen.id);
-  } else if (index == 1) {
-    Navigator.pushNamed(context, FavoritesScreen.id);
-  } else if (index == 2) {
-    Navigator.pushNamed(context, SettingsScreen.id);
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 0) {
+      Navigator.pushNamed(context, HomeScreen.id);
+    } else if (index == 1) {
+      Navigator.pushNamed(context, FavoritesScreen.id);
+    } else if (index == 2) {
+      Navigator.pushNamed(context, SettingsScreen.id);
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +85,10 @@ class _RecipeScreenState extends State<RecipeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Image.network(
-            widget.recipe['strMealThumb'] ?? 'https://via.placeholder.com/150',
-            fit: BoxFit.cover,
-          ),
+              widget.recipe['strMealThumb'] ??
+                  'https://via.placeholder.com/150',
+              fit: BoxFit.cover,
+            ),
             SizedBox(height: 16.0),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -127,7 +128,6 @@ class _RecipeScreenState extends State<RecipeScreen> {
       ),
     );
   }
-
 
   List<Widget> _buildIngredientsList(dynamic recipe) {
     final List<Widget> list = [];

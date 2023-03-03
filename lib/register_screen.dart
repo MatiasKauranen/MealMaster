@@ -63,11 +63,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 });
 
                 try {
-                  final newUser = await _auth.createUserWithEmailAndPassword(
+                  await _auth.createUserWithEmailAndPassword(
                       email: email, password: password);
-                  if (newUser != null) {
-                    Navigator.pushNamed(context, HomeScreen.id);
-                  }
+                  Navigator.pushNamed(context, HomeScreen.id);
                 } on FirebaseAuthException catch (e) {
                   setState(() {
                     showSpinner = false;

@@ -9,9 +9,6 @@ import 'package:mealmaster/components/navbar.dart';
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
 
-  //final Function toggleDarkMode;
-  //const HomeScreen({required this.toggleDarkMode});
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }

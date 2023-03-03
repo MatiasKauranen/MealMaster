@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 try {
                   final userCredential = await _auth.signInWithEmailAndPassword(
                       email: email, password: password);
-                  if (userCredential != null) {
+                  {
                     User? user = userCredential.user;
                     if (user != null) {
                       print('Logged in as ${user.email}');
