@@ -1,16 +1,29 @@
-# mealmaster
+# MealMaster
 
-A new Flutter project.
+MealMaster is a mobile app that helps users find and save their favorite recipes.
+
+## Features
+
+- Search for recipes by name or ingredient
+- Save favorite recipes to a personal collection
+- View detailed recipe information, including ingredients and instructions
+- Dark and light mode support
+- Firebase authentication and user data storage
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+to run the app locally, follow these steps:
 
-A few resources to get you started if this is your first Flutter project:
+- Clone the repository to your local machine
+- Navigate to the project directory in your terminal
+- Run flutter pub get to install dependencies
+- Run flutter run to start the app
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Note: You will need to have Flutter and the Android/iOS development environment set up on your machine.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Technologies Used
+- Flutter
+- Dart
+- Firebase
+
+## Screenshots
