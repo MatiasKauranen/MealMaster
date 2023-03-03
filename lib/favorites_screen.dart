@@ -31,10 +31,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     });
   }
 
-  Future<void> _removeFavoriteRecipe(String recipe) async {
+  Future<void> _removeFavoriteRecipe(int index) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _favoriteRecipes.remove(recipe);
+      _favoriteRecipes.removeAt(index);
       prefs.setStringList('favoriteRecipes', _favoriteRecipes);
     });
   }
@@ -86,31 +86,24 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           itemCount: _favoriteRecipes.length,
                           itemBuilder: (BuildContext context, int index) {
                             final recipeName = _favoriteRecipes[index];
-                            return Dismissible(
-                              key: Key(recipeName),
-                              direction: DismissDirection.endToStart,
-                              background: Container(
-                                color: Colors.red,
-                                child: Icon(Icons.delete),
-                                alignment: Alignment.centerRight,
-                                padding: EdgeInsets.only(right: 16),
-                              ),
-                              onDismissed: (direction) {
-                                _removeFavoriteRecipe(recipeName);
-                              },
-                              child: ListTile(
-                                title: Text(recipeName),
-                                onTap: () async {
-                                  final recipe = await _getRecipe(recipeName);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          RecipeScreen(recipe: recipe),
-                                    ),
-                                  );
+                            return ListTile(
+                              title: Text(recipeName),
+                              trailing: IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  _removeFavoriteRecipe(index);
                                 },
                               ),
+                              onTap: () async {
+                                final recipe = await _getRecipe(recipeName);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RecipeScreen(recipe: recipe),
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),
@@ -137,11 +130,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _clearFavoriteRecipes,
-        child: Icon(Icons.delete),
-        tooltip: 'Clear all favorites',
-      ),
+      
     );
   }
+
 }
