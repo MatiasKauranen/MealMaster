@@ -29,3 +29,41 @@ Note: You will need to have Flutter and the Android/iOS development environment 
 - MealDB API
 
 ## Screenshots
+
+![Welcome page](assets/Welcome.jpg "Image Title")
+> *Welcome page*
+<br></br>
+
+
+![Register page](assets/Register.jpg "Image Title")
+Register page (Firebase auth).
+> *Welcome page*
+<br></br>
+
+![Login page](assets/Login.jpg "Image Title")
+> *Login page (Firebase auth).*
+<br></br>
+
+![Home screen](assets/Home.jpg "Image Title")
+> *Home screen where user can search recipes or get random recipes. Navbar makes navigation easy.*
+<br></br>
+
+![Results](assets/Search.jpg "Image Title")
+> Results for "fish" (MealDB).*
+<br></br>
+
+![Favorite page](assets/Favorite.jpg "Image Title")
+> *Favorite page. User can remove or send recipe via email.*
+<br></br>
+
+![Settings page](assets/Settings.jpg "Image Title")
+> *Settings page with working Dark/Light mode and Log out.*
+<br></br>
+
+![Darkmode](assets/Darkmode.jpg "Image Title")
+> *Darkmode in Home page.*
+<br></br>
+
+![email](assets/Email.jpg "Image Title")
+> *Recipe received via email.*
+<br></br>
