@@ -4,9 +4,10 @@ MealMaster is a mobile app that helps users find and save their favorite recipes
 
 ## Features
 
-- Search for recipes by name or ingredient
+- Search for recipes by name, ingredient or category
+- View detailed recipe information, including photo, ingredients and instructions
 - Save favorite recipes to a personal collection
-- View detailed recipe information, including ingredients and instructions
+- Send favorite recipes to a friend via email
 - Dark and light mode support
 - Firebase authentication and user data storage
 
@@ -25,5 +26,6 @@ Note: You will need to have Flutter and the Android/iOS development environment 
 - Flutter
 - Dart
 - Firebase
+- MealDB API
 
 ## Screenshots
