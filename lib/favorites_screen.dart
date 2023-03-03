@@ -3,8 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'recipe_screen.dart';
-
+import 'package:mealmaster/components/navbar.dart';
 import 'home_screen.dart';
+import 'package:mealmaster/settings_screen.dart';
 
 class FavoritesScreen extends StatefulWidget {
   static const String id = 'favorites_screen';
@@ -36,14 +37,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     setState(() {
       _favoriteRecipes.removeAt(index);
       prefs.setStringList('favoriteRecipes', _favoriteRecipes);
-    });
-  }
-
-  Future<void> _clearFavoriteRecipes() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _favoriteRecipes = [];
-      prefs.remove('favoriteRecipes');
     });
   }
 
@@ -111,27 +104,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-        ],
-        currentIndex: 1,
-        selectedItemColor: Colors.blue,
-        onTap: (index) {
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: 1,
+        onItemTapped: (index) {
           if (index == 0) {
             Navigator.pushReplacementNamed(context, HomeScreen.id);
+          } else if (index == 2) {
+            Navigator.pushNamed(context, SettingsScreen.id);
           }
         },
       ),
-      
     );
   }
-
 }

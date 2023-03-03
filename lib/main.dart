@@ -17,10 +17,6 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primarySwatch: Colors.orange,
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
-      ),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       initialRoute: WelcomeScreen.id,

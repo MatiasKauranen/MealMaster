@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mealmaster/recipe_screen.dart';
 import 'package:mealmaster/favorites_screen.dart';
 import 'package:mealmaster/settings_screen.dart';
+import 'package:mealmaster/components/navbar.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
@@ -32,115 +32,97 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _navigateToRandomRecipe() async {
-  final response =
-      await http.get(Uri.parse('https://www.themealdb.com/api/json/v1/1/random.php'));
+    final response = await http
+        .get(Uri.parse('https://www.themealdb.com/api/json/v1/1/random.php'));
 
-  if (response.statusCode == 200) {
-    final randomRecipe = json.decode(response.body)['meals'][0];
-    Navigator.pushNamed(
-      context,
-      RecipeScreen.id,
-      arguments: randomRecipe,
-    );
-  } else {
-    throw Exception('Failed to fetch a random recipe');
+    if (response.statusCode == 200) {
+      final randomRecipe = json.decode(response.body)['meals'][0];
+      Navigator.pushNamed(
+        context,
+        RecipeScreen.id,
+        arguments: randomRecipe,
+      );
+    } else {
+      throw Exception('Failed to fetch a random recipe');
+    }
   }
-}
-
 
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    FavoritesScreen(),
-  ];
 
   void _onItemTapped(int index) {
-  if (index == _selectedIndex) {
-    return; // Do nothing if already on the selected screen
+    if (index == _selectedIndex) {
+      return; // Do nothing if already on the selected screen
+    }
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (_selectedIndex == 0) {
+      Navigator.pushReplacementNamed(context, HomeScreen.id);
+    } else if (_selectedIndex == 1) {
+      Navigator.pushNamed(context, FavoritesScreen.id);
+    } else if (_selectedIndex == 2) {
+      Navigator.pushNamed(context, SettingsScreen.id);
+    }
   }
-  setState(() {
-    _selectedIndex = index;
-  });
-  if (_selectedIndex == 0) {
-    Navigator.pushReplacementNamed(context, HomeScreen.id);
-  } else if (_selectedIndex == 1) {
-    Navigator.pushNamed(context, FavoritesScreen.id);
-  }
-}
 
-
-
- @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 32.0, horizontal: 8.0),
-          child: Column(
-            children: [
-              Text(
-                'What to eat today?',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 32.0, horizontal: 8.0),
+            child: Column(
+              children: [
+                Text(
+                  'What to eat today?',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.0),
-              TextField(
-                onSubmitted: _searchRecipes,
-                decoration: InputDecoration(
-                  hintText: 'Search meals, ingredient, or category',
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(),
+                SizedBox(height: 16.0),
+                TextField(
+                  onSubmitted: _searchRecipes,
+                  decoration: InputDecoration(
+                    hintText: 'Search meals, ingredient, or category',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+          ),
+          Expanded(
+            child: _recipes == null
+                ? Center(child: Text('Search for a meal!'))
+                : _recipes!.isEmpty
+                    ? Center(child: Text('No results found.'))
+                    : ListView.builder(
+                        itemCount: _recipes!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return _buildRecipeCard(_recipes![index]);
+                        },
+                      ),
+          ),
+        ],
+      ),
+      floatingActionButton: ElevatedButton(
+        onPressed: _navigateToRandomRecipe,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: Text(
+            'Random meal',
+            style: TextStyle(fontSize: 18.0),
           ),
         ),
-        Expanded(
-          child: _recipes == null
-              ? Center(child: Text('Search for a meal!'))
-              : _recipes!.isEmpty
-                  ? Center(child: Text('No results found.'))
-                  : ListView.builder(
-                      itemCount: _recipes!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _buildRecipeCard(_recipes![index]);
-                      },
-                    ),
-        ),
-      ],
-    ),
-    floatingActionButton: ElevatedButton(
-      onPressed: _navigateToRandomRecipe,
-      child: Padding(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        child: Text(
-          'Random meal',
-          style: TextStyle(fontSize: 18.0),
-        ),
       ),
-    ),
-    bottomNavigationBar: BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
-          label: 'Favorites',
-        ),
-      ],
-      currentIndex: _selectedIndex,
-      selectedItemColor: Colors.blue,
-      onTap: _onItemTapped,
-    ),
-  );
-}
-
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
+    );
+  }
 
   Widget _buildRecipeCard(dynamic recipe) {
     return Card(
@@ -172,10 +154,5 @@ Widget build(BuildContext context) {
         ),
       ),
     );
-  }
-
-  int _getRandomIndex(int maxIndex) {
-    final random = Random();
-    return random.nextInt(maxIndex);
   }
 }

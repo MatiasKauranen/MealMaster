@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mealmaster/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mealmaster/components/navbar.dart';
+import 'package:mealmaster/favorites_screen.dart';
+import 'home_screen.dart';
 
 class RecipeScreen extends StatefulWidget {
   static const String id = 'recipe_screen';
@@ -15,6 +19,7 @@ class RecipeScreen extends StatefulWidget {
 class _RecipeScreenState extends State<RecipeScreen> {
   bool isFavorite = false;
   List<String> _favoriteRecipes = [];
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -46,6 +51,20 @@ class _RecipeScreenState extends State<RecipeScreen> {
     });
   }
 
+  void _onItemTapped(int index) {
+  setState(() {
+    _selectedIndex = index;
+  });
+  if (index == 0) {
+    Navigator.pushNamed(context, HomeScreen.id);
+  } else if (index == 1) {
+    Navigator.pushNamed(context, FavoritesScreen.id);
+  } else if (index == 2) {
+    Navigator.pushNamed(context, SettingsScreen.id);
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +93,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 'Ingredients',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
             Padding(
@@ -89,7 +108,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 'Instructions',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
             Padding(
@@ -102,8 +121,13 @@ class _RecipeScreenState extends State<RecipeScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
     );
   }
+
 
   List<Widget> _buildIngredientsList(dynamic recipe) {
     final List<Widget> list = [];
