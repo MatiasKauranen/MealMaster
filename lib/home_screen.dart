@@ -55,84 +55,92 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (_selectedIndex == 0) {
-      Navigator.pop(context);
-    } else if (_selectedIndex == 1) {
-      Navigator.pushNamed(context, FavoritesScreen.id);
-    }
+  if (index == _selectedIndex) {
+    return; // Do nothing if already on the selected screen
   }
+  setState(() {
+    _selectedIndex = index;
+  });
+  if (_selectedIndex == 0) {
+    Navigator.pushReplacementNamed(context, HomeScreen.id);
+  } else if (_selectedIndex == 1) {
+    Navigator.pushNamed(context, FavoritesScreen.id);
+  }
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('What to eat today?'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.pushNamed(context, SettingsScreen.id);
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onSubmitted: _searchRecipes,
-              decoration: InputDecoration(
-                hintText: 'Search meals by name, ingredient, or category',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+
+
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 32.0, horizontal: 8.0),
+          child: Column(
+            children: [
+              Text(
+                'What to eat today?',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+              SizedBox(height: 16.0),
+              TextField(
+                onSubmitted: _searchRecipes,
+                decoration: InputDecoration(
+                  hintText: 'Search meals, ingredient, or category',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: _recipes == null
-                ? Center(child: Text('Search for a meal!'))
-                : _recipes!.isEmpty
-                    ? Center(child: Text('No results found.'))
-                    : ListView.builder(
-                        itemCount: _recipes!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return _buildRecipeCard(_recipes![index]);
-                        },
-                      ),
-          ),
-        ],
-      ),
-      floatingActionButton: ElevatedButton(
-  onPressed: _navigateToRandomRecipe,
-  child: Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-    child: Text(
-      'Random meal',
-      style: TextStyle(fontSize: 18.0),
+        ),
+        Expanded(
+          child: _recipes == null
+              ? Center(child: Text('Search for a meal!'))
+              : _recipes!.isEmpty
+                  ? Center(child: Text('No results found.'))
+                  : ListView.builder(
+                      itemCount: _recipes!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _buildRecipeCard(_recipes![index]);
+                      },
+                    ),
+        ),
+      ],
     ),
-  ),
-),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
+    floatingActionButton: ElevatedButton(
+      onPressed: _navigateToRandomRecipe,
+      child: Padding(
+        padding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Text(
+          'Random meal',
+          style: TextStyle(fontSize: 18.0),
+        ),
       ),
-    );
-  }
+    ),
+    bottomNavigationBar: BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite),
+          label: 'Favorites',
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      selectedItemColor: Colors.blue,
+      onTap: _onItemTapped,
+    ),
+  );
+}
+
 
   Widget _buildRecipeCard(dynamic recipe) {
     return Card(
@@ -157,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 recipe['strMeal'] ?? '',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
           ],

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-
 import 'recipe_screen.dart';
+
+import 'home_screen.dart';
 
 class FavoritesScreen extends StatefulWidget {
   static const String id = 'favorites_screen';
@@ -57,48 +58,85 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Favorite Recipes'),
-      ),
-      body: _favoriteRecipes == null
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : _favoriteRecipes.isEmpty
-              ? Center(
-                  child: Text('No favorite recipes'),
-                )
-              : ListView.builder(
-                  itemCount: _favoriteRecipes.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final recipeName = _favoriteRecipes[index];
-                    return Dismissible(
-                      key: Key(recipeName),
-                      direction: DismissDirection.endToStart,
-                      background: Container(
-                        color: Colors.red,
-                        child: Icon(Icons.delete),
-                        alignment: Alignment.centerRight,
-                        padding: EdgeInsets.only(right: 16),
-                      ),
-                      onDismissed: (direction) {
-                        _removeFavoriteRecipe(recipeName);
-                      },
-                      child: ListTile(
-                        title: Text(recipeName),
-                        onTap: () async {
-                          final recipe = await _getRecipe(recipeName);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => RecipeScreen(recipe: recipe),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              child: Text(
+                'Favorite Recipes',
+                style: TextStyle(
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+            Expanded(
+              child: _favoriteRecipes == null
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : _favoriteRecipes.isEmpty
+                      ? Center(
+                          child: Text('No favorite recipes'),
+                        )
+                      : ListView.builder(
+                          itemCount: _favoriteRecipes.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final recipeName = _favoriteRecipes[index];
+                            return Dismissible(
+                              key: Key(recipeName),
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                color: Colors.red,
+                                child: Icon(Icons.delete),
+                                alignment: Alignment.centerRight,
+                                padding: EdgeInsets.only(right: 16),
+                              ),
+                              onDismissed: (direction) {
+                                _removeFavoriteRecipe(recipeName);
+                              },
+                              child: ListTile(
+                                title: Text(recipeName),
+                                onTap: () async {
+                                  final recipe = await _getRecipe(recipeName);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          RecipeScreen(recipe: recipe),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
+        ],
+        currentIndex: 1,
+        selectedItemColor: Colors.blue,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushReplacementNamed(context, HomeScreen.id);
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _clearFavoriteRecipes,
         child: Icon(Icons.delete),
