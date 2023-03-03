@@ -36,8 +36,7 @@ Note: You will need to have Flutter and the Android/iOS development environment 
 
 
 ![Register page](assets/Register.jpg "Image Title")
-Register page (Firebase auth).
-> *Welcome page*
+> *Register page (Firebase auth).*
 <br></br>
 
 ![Login page](assets/Login.jpg "Image Title")
@@ -49,7 +48,7 @@ Register page (Firebase auth).
 <br></br>
 
 ![Results](assets/Search.jpg "Image Title")
-> Results for "fish" (MealDB).*
+> *Results for "fish" (MealDB).*
 <br></br>
 
 ![Favorite page](assets/Favorite.jpg "Image Title")
