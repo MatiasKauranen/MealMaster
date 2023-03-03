@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         primarySwatch: Colors.orange,
       ),
-      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       initialRoute: WelcomeScreen.id,
       routes: {
@@ -25,10 +24,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         RegisterScreen.id: (context) => RegisterScreen(),
         HomeScreen.id: (context) => HomeScreen(),
-        RecipeScreen.id: (context) {
-          final recipe = ModalRoute.of(context)!.settings.arguments as dynamic;
-          return RecipeScreen(recipe: recipe);
-        },
+        RecipeScreen.id: (context) => RecipeScreen(recipe: ModalRoute.of(context)!.settings.arguments as dynamic),
         SettingsScreen.id: (context) => SettingsScreen(),
         FavoritesScreen.id: (context) => FavoritesScreen(),
       },

@@ -17,34 +17,64 @@ class WelcomeScreen extends StatelessWidget {
               height: 400,
               width: 300,
             ),
-            Text(
-              'Welcome to MealMaster!',
-              style: TextStyle(fontSize: 24.0),
-            ),
-            Text(
-              'Your new recipe book',
-              style: TextStyle(fontSize: 18.0),
-            ),
+            SizedBox(height: 16.0),
+            TitleText(),
             SizedBox(height: 32.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, RegisterScreen.id);
-              },
-              child: Text('Register'),
-            ),
-            Text(
-              'Already registered?',
-              style: TextStyle(fontSize: 16.0),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, LoginScreen.id);
-              },
-              child: Text('Login'),
-            ),
+            RegisterLoginButtons(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class TitleText extends StatelessWidget {
+  const TitleText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          'Welcome to MealMaster!',
+          style: TextStyle(fontSize: 24.0),
+        ),
+        SizedBox(height: 8.0),
+        Text(
+          'Your new recipe book',
+          style: TextStyle(fontSize: 18.0),
+        ),
+      ],
+    );
+  }
+}
+
+class RegisterLoginButtons extends StatelessWidget {
+  const RegisterLoginButtons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, RegisterScreen.id);
+          },
+          child: Text('Register'),
+        ),
+        SizedBox(height: 16.0),
+        Text(
+          'Already registered?',
+          style: TextStyle(fontSize: 16.0),
+        ),
+        SizedBox(height: 8.0),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, LoginScreen.id);
+          },
+          child: Text('Login'),
+        ),
+      ],
     );
   }
 }

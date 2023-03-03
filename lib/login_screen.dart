@@ -19,13 +19,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
+          children: [
             Center(
               child: Text(
                 'Login',
@@ -35,38 +34,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            SizedBox(height: 16.0),
             TextField(
+              decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
               keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
               onChanged: (value) {
                 email = value;
               },
-              decoration: InputDecoration(
-                hintText: 'Enter your email',
-              ),
             ),
-            SizedBox(
-              height: 8.0,
-            ),
+            SizedBox(height: 16.0),
             TextField(
               obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
               textAlign: TextAlign.center,
               onChanged: (value) {
                 password = value;
               },
-              decoration: InputDecoration(
-                hintText: 'Enter your password.',
-              ),
             ),
-            SizedBox(
-              height: 24.0,
-            ),
+            SizedBox(height: 16.0),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-              ),
-              child: Text('Log In'),
               onPressed: () async {
                 setState(() {
                   showSpinner = true;
@@ -82,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.pushNamed(context, HomeScreen.id);
                     }
                   }
-
                   setState(() {
                     showSpinner = false;
                   });
@@ -103,22 +95,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
                 }
               },
+              child: Text('Log In'),
             ),
-            SizedBox(
-              height: 10.0,
-            ),
+            SizedBox(height: 8.0),
             if (showSpinner)
               Center(
                 child: CircularProgressIndicator(),
               ),
             if (errorMessage.isNotEmpty)
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
                   errorMessage,
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
+                  style: TextStyle(color: Colors.red),
                   textAlign: TextAlign.center,
                 ),
               ),

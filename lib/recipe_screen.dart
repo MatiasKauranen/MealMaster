@@ -7,7 +7,7 @@ import 'home_screen.dart';
 
 class RecipeScreen extends StatefulWidget {
   static const String id = 'recipe_screen';
-
+  
   final dynamic recipe;
 
   const RecipeScreen({Key? key, required this.recipe}) : super(key: key);

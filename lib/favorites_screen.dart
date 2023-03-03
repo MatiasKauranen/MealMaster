@@ -6,49 +6,51 @@ import 'recipe_screen.dart';
 import 'package:mealmaster/components/navbar.dart';
 import 'home_screen.dart';
 import 'package:mealmaster/settings_screen.dart';
-
 class FavoritesScreen extends StatefulWidget {
   static const String id = 'favorites_screen';
-
   const FavoritesScreen({Key? key}) : super(key: key);
-
   @override
   _FavoritesScreenState createState() => _FavoritesScreenState();
 }
-
 class _FavoritesScreenState extends State<FavoritesScreen> {
   late List<String> _favoriteRecipes;
-
-  @override
+@override
   void initState() {
     super.initState();
-    _loadFavoriteRecipes();
-  }
-
-  Future<void> _loadFavoriteRecipes() async {
+    _loadFavoriteRecipes();}
+Future<void> _loadFavoriteRecipes() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _favoriteRecipes = prefs.getStringList('favoriteRecipes') ?? [];
-    });
-  }
-
-  Future<void> _removeFavoriteRecipe(int index) async {
-    final prefs = await SharedPreferences.getInstance();
+    });}
+Future<void> _removeFavoriteRecipe(int index) async {
+  final prefs = await SharedPreferences.getInstance();
+  final recipeName = _favoriteRecipes[index];
+  final confirmed = await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Remove Recipe'),
+        content: Text('Are you sure you want to remove "$recipeName"?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('CANCEL'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('OK'),),],);},);
+  if (confirmed == true) {
     setState(() {
       _favoriteRecipes.removeAt(index);
-      prefs.setStringList('favoriteRecipes', _favoriteRecipes);
-    });
-  }
-
-  Future<dynamic> _getRecipe(String recipeName) async {
+      prefs.setStringList('favoriteRecipes', _favoriteRecipes);});}}
+Future<dynamic> _getRecipe(String recipeName) async {
     final url =
         'https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName.replaceAll(' ', '%20')}';
     final response = await http.get(Uri.parse(url));
     final data = jsonDecode(response.body);
-    return data['meals'][0];
-  }
-
-  @override
+    return data['meals'][0];}
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -62,10 +64,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 'Favorite Recipes',
                 style: TextStyle(
                   fontSize: 32.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+                  fontWeight: FontWeight.bold,),),),
             Expanded(
               child: _favoriteRecipes == null
                   ? Center(
@@ -93,17 +92,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        RecipeScreen(recipe: recipe),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ),
-            ),
-          ],
-        ),
-      ),
+                                        RecipeScreen(recipe: recipe),),);},);},),),],),),
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: 1,
         onItemTapped: (index) {
@@ -111,9 +100,4 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             Navigator.pushReplacementNamed(context, HomeScreen.id);
           } else if (index == 2) {
             Navigator.pushNamed(context, SettingsScreen.id);
-          }
-        },
-      ),
-    );
-  }
-}
+          }},),);}}
