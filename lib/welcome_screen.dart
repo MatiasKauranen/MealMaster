@@ -17,9 +17,9 @@ class WelcomeScreen extends StatelessWidget {
               height: 400,
               width: 300,
             ),
-            SizedBox(height: 32.0),
+            SizedBox(height: 0.0),
             Text(
-              'Welcome to MealMaster',
+              'Welcome to MealMaster!',
               style: TextStyle(fontSize: 24.0),
             ),
             SizedBox(height: 8.0),
@@ -34,7 +34,7 @@ class WelcomeScreen extends StatelessWidget {
               },
               child: Text('Register'),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 32.0),
             Text(
               'Already registered?',
               style: TextStyle(fontSize: 16.0),

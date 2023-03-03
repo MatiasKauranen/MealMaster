@@ -19,14 +19,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Center(
+              child: Text(
+                'Register',
+                style: TextStyle(
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(height: 16.0),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Email',
@@ -55,24 +63,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 });
 
                 try {
-                  // Check if the email is already registered
-                  final user = await _auth.fetchSignInMethodsForEmail(email);
-                  if (user.isNotEmpty) {
-                    setState(() {
-                      errorMessage = 'This email is already registered.';
-                      showSpinner = false;
-                    });
-                  } else {
-                    // Create a new user with the provided email and password
-                    final newUser = await _auth.createUserWithEmailAndPassword(
-                        email: email, password: password);
-                    if (newUser != null) {
-                      Navigator.pushNamed(context, HomeScreen.id);
-                    }
-                    setState(() {
-                      showSpinner = false;
-                    });
+                  final newUser = await _auth.createUserWithEmailAndPassword(
+                      email: email, password: password);
+                  if (newUser != null) {
+                    Navigator.pushNamed(context, HomeScreen.id);
                   }
+                } on FirebaseAuthException catch (e) {
+                  setState(() {
+                    showSpinner = false;
+                    errorMessage = e.message!;
+                  });
                 } catch (e) {
                   print(e);
                 }

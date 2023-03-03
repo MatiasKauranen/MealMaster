@@ -26,6 +26,15 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            Center(
+              child: Text(
+                'Login',
+                style: TextStyle(
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             TextField(
               keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
@@ -64,9 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   errorMessage = '';
                 });
                 try {
-                  final userCredential =
-                      await _auth.signInWithEmailAndPassword(
-                          email: email, password: password);
+                  final userCredential = await _auth.signInWithEmailAndPassword(
+                      email: email, password: password);
                   if (userCredential != null) {
                     User? user = userCredential.user;
                     if (user != null) {
@@ -84,7 +92,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (e.code == 'wrong-password') {
                       errorMessage = 'Incorrect password';
                     } else {
-                      errorMessage = 'Could not log in. Please try again later.';
+                      errorMessage =
+                          'Could not log in. Please try again later.';
                     }
                   });
                 } catch (e) {
