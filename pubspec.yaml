@@ -16,6 +16,7 @@ dependencies:
   firebase_auth: ^4.2.9
   shared_preferences: ^2.0.8
   adaptive_theme: ^3.2.0
+  flutter_email_sender: ^5.2.0
 
 dev_dependencies:
   flutter_test:
