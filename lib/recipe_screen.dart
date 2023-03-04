@@ -1,3 +1,4 @@
+// Import necessary packages and screens
 import 'package:flutter/material.dart';
 import 'package:mealmaster/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,89 +7,96 @@ import 'package:mealmaster/favorites_screen.dart';
 import 'home_screen.dart';
 
 class RecipeScreen extends StatefulWidget {
-  static const String id = 'recipe_screen';
+static const String id = 'recipe_screen';
 
-  final dynamic recipe;
+final dynamic recipe;
 
-  const RecipeScreen({Key? key, required this.recipe}) : super(key: key);
+const RecipeScreen({Key? key, required this.recipe}) : super(key: key);
 
-  @override
-  _RecipeScreenState createState() => _RecipeScreenState();
+@override
+_RecipeScreenState createState() => _RecipeScreenState();
 }
 
 class _RecipeScreenState extends State<RecipeScreen> {
-  bool isFavorite = false;
-  List<String> _favoriteRecipes = [];
-  int _selectedIndex = 0;
+bool isFavorite = false;
+List<String> _favoriteRecipes = [];
+int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadFavoriteStatus();
-  }
+// Load the favorite status of the current recipe
+@override
+void initState() {
+super.initState();
+_loadFavoriteStatus();
+}
 
-  void _loadFavoriteStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      isFavorite =
-          prefs.getBool(widget.recipe['idMeal']?.toString() ?? '') ?? false;
-      _favoriteRecipes = prefs.getStringList('favoriteRecipes') ?? [];
-    });
-  }
+// Load favorite status from shared preferences
+void _loadFavoriteStatus() async {
+SharedPreferences prefs = await SharedPreferences.getInstance();
+setState(() {
+isFavorite =
+prefs.getBool(widget.recipe['idMeal']?.toString() ?? '') ?? false;
+_favoriteRecipes = prefs.getStringList('favoriteRecipes') ?? [];
+});
+}
 
-  void _toggleFavoriteStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String recipeName = widget.recipe['strMeal'] ?? '';
-    setState(() {
-      isFavorite = !isFavorite;
-      if (isFavorite) {
-        // Add recipe to favorites
-        _favoriteRecipes.add(recipeName);
-      } else {
-        // Remove recipe from favorites
-        _favoriteRecipes.remove(recipeName);
-      }
-      prefs.setStringList('favoriteRecipes', _favoriteRecipes);
-    });
-  }
+// Toggle the favorite status of the current recipe
+void _toggleFavoriteStatus() async {
+SharedPreferences prefs = await SharedPreferences.getInstance();
+String recipeName = widget.recipe['strMeal'] ?? '';
+setState(() {
+isFavorite = !isFavorite;
+if (isFavorite) {
+// Add recipe to favorites
+_favoriteRecipes.add(recipeName);
+} else {
+// Remove recipe from favorites
+_favoriteRecipes.remove(recipeName);
+}
+prefs.setStringList('favoriteRecipes', _favoriteRecipes);
+});
+}
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (index == 0) {
-      Navigator.pushNamed(context, HomeScreen.id);
-    } else if (index == 1) {
-      Navigator.pushNamed(context, FavoritesScreen.id);
-    } else if (index == 2) {
-      Navigator.pushNamed(context, SettingsScreen.id);
-    }
-  }
+// Navigate to different screens based on the item tapped
+void _onItemTapped(int index) {
+setState(() {
+_selectedIndex = index;
+});
+if (index == 0) {
+Navigator.pushNamed(context, HomeScreen.id);
+} else if (index == 1) {
+Navigator.pushNamed(context, FavoritesScreen.id);
+} else if (index == 2) {
+Navigator.pushNamed(context, SettingsScreen.id);
+}
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.recipe['strMeal'] ?? ''),
-        actions: [
-          IconButton(
-            icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: Colors.white,
-            ),
-            onPressed: _toggleFavoriteStatus,
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Image.network(
-              widget.recipe['strMealThumb'] ??
-                  'https://via.placeholder.com/150',
-              fit: BoxFit.cover,
-            ),
+// Build the recipe screen widget
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+appBar: AppBar(
+title: Text(widget.recipe['strMeal'] ?? ''),
+actions: [
+// Button to add/remove recipe from favorites
+IconButton(
+icon: Icon(
+isFavorite ? Icons.favorite : Icons.favorite_border,
+color: Colors.white,
+),
+onPressed: _toggleFavoriteStatus,
+),
+],
+),
+body: SingleChildScrollView(
+child: Column(
+crossAxisAlignment: CrossAxisAlignment.stretch,
+children: [
+// Display recipe image
+Image.network(
+widget.recipe['strMealThumb'] ??
+'https://via.placeholder.com/150',
+fit: BoxFit.cover,
+),
             SizedBox(height: 16.0),
             Padding(
               padding: const EdgeInsets.all(16.0),

@@ -1,3 +1,4 @@
+// Import required libraries
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<dynamic>? _recipes;
 
+// Method to search recipes based on a query
   Future<void> _searchRecipes(String query) async {
     final response = await http.get(Uri.parse(
         'https://www.themealdb.com/api/json/v1/1/search.php?s=$query'));
@@ -29,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+// Method to navigate to a random recipe
   Future<void> _navigateToRandomRecipe() async {
     final response = await http
         .get(Uri.parse('https://www.themealdb.com/api/json/v1/1/random.php'));
@@ -47,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int _selectedIndex = 0;
 
+// Method to handle bottom navigation bar item tap
   void _onItemTapped(int index) {
     if (index == _selectedIndex) {
       return; // Do nothing if already on the selected screen
@@ -63,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+// Override build method, returns a Scaffold widget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+// Recipe list
           Expanded(
             child: _recipes == null
                 ? Center(child: Text('Search for a meal!'))
@@ -105,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      // Floating action button for random recipe
       floatingActionButton: ElevatedButton(
         onPressed: _navigateToRandomRecipe,
         child: Padding(
@@ -122,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+// Widget function to build recipe card
   Widget _buildRecipeCard(dynamic recipe) {
     return Card(
       margin: EdgeInsets.all(16.0),
@@ -136,11 +144,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+// Display recipe image
             Image.network(
               recipe['strMealThumb'] ?? '',
               fit: BoxFit.cover,
             ),
             SizedBox(height: 8.0),
+// Display recipe name
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
