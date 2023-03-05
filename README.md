@@ -18,7 +18,7 @@ to run the app locally, follow these steps:
 - Clone the repository to your local machine
 - Navigate to the project directory in your terminal
 - Run flutter pub get to install dependencies
-- Run flutter run to start the app
+- Run flutter run to start the app in android emulator
 
 Note: You will need to have Flutter and the Android/iOS development environment set up on your machine.
 
@@ -27,7 +27,7 @@ Note: You will need to have Flutter and the Android/iOS development environment 
 - Dart
 - Firebase Authentication
 - TheMealDB API
-- 
+- Android emulator (Pixel 3a API 29)
 
 ## Screenshots
 
