@@ -25,8 +25,9 @@ Note: You will need to have Flutter and the Android/iOS development environment 
 ## Technologies Used
 - Flutter
 - Dart
-- Firebase
-- MealDB API
+- Firebase Authentication
+- TheMealDB API
+- 
 
 ## Screenshots
 
