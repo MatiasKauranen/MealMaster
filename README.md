@@ -1,3 +1,5 @@
+<img src="assets/Logo.png" width="250" height="200">
+
 # MealMaster
 
 MealMaster is a mobile app that helps users find and save their favorite recipes.
